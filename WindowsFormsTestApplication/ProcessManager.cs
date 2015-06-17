@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms.VisualStyles;
 using NLog;
 using Timer = System.Timers.Timer;
 
@@ -52,6 +53,9 @@ namespace WindowsFormsTestApplication
         /// <param name="interval">update interval</param>
         public ProcessManager(bool startUpdating = true, int interval = 1000)
         {
+#if DEBUG
+            interval = 15000;
+#endif
             Processes = new List<ProcessInfo>(0);
             UpdatingTimer = new Timer();
             UpdatingTimer.Elapsed += OnTimedEvent;
