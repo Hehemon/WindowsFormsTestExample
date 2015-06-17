@@ -50,7 +50,7 @@ namespace WindowsFormsTestApplication
         /// </summary>
         /// <param name="startUpdating">if start updating process at the begging</param>
         /// <param name="interval">update interval</param>
-        public ProcessManager(bool startUpdating = true, int interval = 10000)
+        public ProcessManager(bool startUpdating = true, int interval = 1000)
         {
             Processes = new List<ProcessInfo>(0);
             UpdatingTimer = new Timer();
