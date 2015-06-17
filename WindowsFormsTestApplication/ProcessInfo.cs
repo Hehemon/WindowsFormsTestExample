@@ -9,7 +9,7 @@ namespace WindowsFormsTestApplication
     /// <summary>
     /// Class for storing default info of process
     /// </summary>
-    public class ProcessInfo : IEquatable<ProcessInfo>
+    public class ProcessInfo : IEquatable<ProcessInfo>, ICloneable
     {
         public readonly int Id;
         public readonly string FriendlyName;
@@ -50,6 +50,11 @@ namespace WindowsFormsTestApplication
         public override string ToString()
         {
             return string.Format("{0}, {1}", FriendlyName, Id);
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

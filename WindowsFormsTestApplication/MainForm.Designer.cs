@@ -20,6 +20,8 @@
             base.Dispose(disposing);
         }
 
+        
+
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -30,35 +32,54 @@
         {
             this.btnStartStop = new System.Windows.Forms.Button();
             this.btnDetails = new System.Windows.Forms.Button();
+            this.lvProcesses = new System.Windows.Forms.ListView();
+            this.Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(51, 74);
+            this.btnStartStop.Location = new System.Drawing.Point(13, 176);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(75, 23);
             this.btnStartStop.TabIndex = 0;
             this.btnStartStop.Text = "Start/Stop";
             this.btnStartStop.UseVisualStyleBackColor = true;
+            this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
             // btnDetails
             // 
-            this.btnDetails.Location = new System.Drawing.Point(147, 74);
+            this.btnDetails.Location = new System.Drawing.Point(199, 176);
             this.btnDetails.Name = "btnDetails";
             this.btnDetails.Size = new System.Drawing.Size(75, 23);
             this.btnDetails.TabIndex = 1;
             this.btnDetails.Text = "Details";
             this.btnDetails.UseVisualStyleBackColor = true;
             // 
+            // lvProcesses
+            // 
+            this.lvProcesses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Name,
+            this.Id});
+            this.lvProcesses.Location = new System.Drawing.Point(12, 13);
+            this.lvProcesses.Name = "lvProcesses";
+            this.lvProcesses.Size = new System.Drawing.Size(261, 157);
+            this.lvProcesses.TabIndex = 2;
+            this.lvProcesses.UseCompatibleStateImageBehavior = false;
+            this.lvProcesses.View = System.Windows.Forms.View.List;
+            this.lvProcesses.SelectedIndexChanged += new System.EventHandler(this.lvProcesses_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(655, 381);
+            this.ClientSize = new System.Drawing.Size(292, 220);
+            this.Controls.Add(this.lvProcesses);
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnStartStop);
-            this.Name = "MainForm";
             this.Text = "MainForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -67,6 +88,9 @@
 
         private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.Button btnDetails;
+        private System.Windows.Forms.ListView lvProcesses;
+        private System.Windows.Forms.ColumnHeader Name;
+        private System.Windows.Forms.ColumnHeader Id;
     }
 }
 

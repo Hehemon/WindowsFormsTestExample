@@ -2,34 +2,55 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Timers;
 using NLog;
+using Timer = System.Timers.Timer;
+
 
 namespace WindowsFormsTestApplication
 {
     /// <summary>
+    /// Class for deliviring arguments of ProcessManager Event
+    /// </summary>
+    public class ProcessUpdateEventArgs : EventArgs
+    {
+        public IEnumerable<ProcessInfo> ProcessData { get; protected set; }
+
+        public ProcessUpdateEventArgs(IEnumerable<ProcessInfo> data)
+        {
+            ProcessData = data;
+        }
+    }
+
+    /// <summary>
     /// Managing process data class
     /// </summary>
-    public class ProcessManager
+    public sealed class ProcessManager
     {
+        /// <summary>
+        /// Singleton
+        /// </summary>
+        public static readonly ProcessManager I = new ProcessManager();
+
+        public event EventHandler<ProcessUpdateEventArgs> OnProcessUpdate;
+
         /// <summary>
         /// Previous process data
         /// </summary>
-        protected List<ProcessInfo> Processes { get; set; }
+        private List<ProcessInfo> Processes { get; set; }
 
         /// <summary>
         /// Timer for updating in different thread
         /// </summary>
-        protected Timer UpdatingTimer { get; set; }
+        private Timer UpdatingTimer { get; set; }
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="startUpdating">if start updating process at the begging</param>
         /// <param name="interval">update interval</param>
-        public ProcessManager(bool startUpdating = true, int interval = 1000)
+        public ProcessManager(bool startUpdating = true, int interval = 10000)
         {
             Processes = new List<ProcessInfo>(0);
             UpdatingTimer = new Timer();
@@ -61,18 +82,32 @@ namespace WindowsFormsTestApplication
         }
 
         /// <summary>
+        /// Notificate about event subscribers
+        /// </summary>
+        /// <param name="e">Arguments</param>
+        private void OnUpdate(ProcessUpdateEventArgs e)
+        {
+            EventHandler<ProcessUpdateEventArgs> temp = Volatile.Read(ref OnProcessUpdate); // Thread safety
+
+            if (temp != null) temp(this, e);
+        }
+
+        /// <summary>
         /// Asynchronouos way
         /// </summary>
-        protected void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             try
             {
                 var newProcesses = Process.GetProcesses();
+                ProcessUpdateEventArgs args;
                 lock (this)
                 {
                     RemoveAndLogOldProcesses(newProcesses);
                     AddAndLogNewProcesses(newProcesses);
+                    args = new ProcessUpdateEventArgs(Processes.Select(item => (ProcessInfo)item.Clone()));
                 }
+                OnUpdate(args);
             }
             catch (Exception exception)
             {
