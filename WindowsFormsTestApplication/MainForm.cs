@@ -42,7 +42,7 @@ namespace WindowsFormsTestApplication
             lvProcesses.BeginUpdate();
             try
             {
-                lvProcesses.Clear();
+                lvProcesses.Items.Clear();
                 foreach (var item in list)
                 {
                     lvProcesses.Items.Add(new ListViewItem(new[] {item.FriendlyName, item.Id.ToString()}));
