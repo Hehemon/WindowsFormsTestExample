@@ -40,13 +40,23 @@ namespace WindowsFormsTestApplication
         private void UpdateViewListInUiThread(IEnumerable<ProcessInfo> list)
         {
             lvProcesses.BeginUpdate();
-            lvProcesses.Items.Clear();
-            foreach (var item in list)
+            try
             {
-                lvProcesses.Items.Add(new ListViewItem(new[] {item.FriendlyName, item.Id.ToString()}));
+                lvProcesses.Clear();
+                foreach (var item in list)
+                {
+                    lvProcesses.Items.Add(new ListViewItem(new[] {item.FriendlyName, item.Id.ToString()}));
+                }
+                btnDetails.Enabled = lvProcesses.SelectedItems.Count > 0;
             }
-            lvProcesses.EndUpdate();
-            btnDetails.Enabled = lvProcesses.SelectedItems.Count > 0;
+            catch (Exception e)
+            {
+                LogManager.GetCurrentClassLogger().Error("Updating ListView error: {0}, {1}", e.Message, e.StackTrace);
+            }
+            finally
+            {
+                lvProcesses.EndUpdate();
+            }
         }
 
         /// <summary>
@@ -82,6 +92,11 @@ namespace WindowsFormsTestApplication
             btnDetails.Enabled = lvProcesses.SelectedItems.Count > 0;
         }
 
+        /// <summary>
+        /// Unsubscribe from messages
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ProcessManager.I.OnProcessUpdate -= UpdateViewList;
