@@ -33,8 +33,8 @@
             this.btnStartStop = new System.Windows.Forms.Button();
             this.btnDetails = new System.Windows.Forms.Button();
             this.lvProcesses = new System.Windows.Forms.ListView();
-            this.Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lvcName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lvcID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // btnStartStop
@@ -59,8 +59,8 @@
             // lvProcesses
             // 
             this.lvProcesses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Name,
-            this.Id});
+            this.lvcName,
+            this.lvcID});
             this.lvProcesses.Location = new System.Drawing.Point(12, 13);
             this.lvProcesses.Name = "lvProcesses";
             this.lvProcesses.Size = new System.Drawing.Size(339, 388);
@@ -70,27 +70,28 @@
             this.lvProcesses.SelectedIndexChanged += new System.EventHandler(this.lvProcesses_SelectedIndexChanged);
             this.lvProcesses.DoubleClick += new System.EventHandler(this.lvProcesses_DoubleClick);
             // 
-            // Name
+            // lvcName
             // 
-            this.Name.Text = "Name";
-            this.Name.Width = 172;
+            this.lvcName.Text = "Name";
+            this.lvcName.Width = 244;
             // 
-            // Id
+            // lvcID
             // 
-            this.Id.Text = "Process ID";
-            this.Id.Width = 158;
+            this.lvcID.Text = "Process ID";
+            this.lvcID.Width = 90;
             // 
             // ProcessesMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 437);
+            this.ClientSize = new System.Drawing.Size(359, 436);
             this.Controls.Add(this.lvProcesses);
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnStartStop);
-            this.MaximumSize = new System.Drawing.Size(1024, 768);
-            this.MinimumSize = new System.Drawing.Size(480, 150);
+            this.MaximumSize = new System.Drawing.Size(375, 474);
+            this.MinimumSize = new System.Drawing.Size(375, 474);
             this.Name = "ProcessesMainForm";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "Processes";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -103,8 +104,8 @@
         private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.Button btnDetails;
         private System.Windows.Forms.ListView lvProcesses;
-        private System.Windows.Forms.ColumnHeader Name;
-        private System.Windows.Forms.ColumnHeader Id;
+        private System.Windows.Forms.ColumnHeader lvcName;
+        private System.Windows.Forms.ColumnHeader lvcID;
     }
 }
 
