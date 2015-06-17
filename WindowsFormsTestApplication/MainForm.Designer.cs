@@ -66,9 +66,17 @@
             this.lvProcesses.Size = new System.Drawing.Size(261, 157);
             this.lvProcesses.TabIndex = 2;
             this.lvProcesses.UseCompatibleStateImageBehavior = false;
-            this.lvProcesses.View = System.Windows.Forms.View.List;
+            this.lvProcesses.View = System.Windows.Forms.View.Details;
             this.lvProcesses.SelectedIndexChanged += new System.EventHandler(this.lvProcesses_SelectedIndexChanged);
             this.lvProcesses.DoubleClick += new System.EventHandler(this.lvProcesses_DoubleClick);
+            // 
+            // Name
+            // 
+            this.Name.Width = 102;
+            // 
+            // Id
+            // 
+            this.Id.Width = 158;
             // 
             // MainForm
             // 
@@ -78,7 +86,7 @@
             this.Controls.Add(this.lvProcesses);
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnStartStop);
-            this.Name = "MainForm";
+            
             this.Text = "MainForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
