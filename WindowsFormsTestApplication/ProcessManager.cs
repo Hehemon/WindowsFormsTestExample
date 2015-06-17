@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using NLog;
 
 namespace WindowsFormsTestApplication
 {
@@ -16,7 +17,7 @@ namespace WindowsFormsTestApplication
         /// <summary>
         /// Previous process data
         /// </summary>
-        protected IEnumerable<Process> Processes { get; set; }
+        protected List<ProcessInfo> Processes { get; set; }
 
         /// <summary>
         /// Timer for updating in different thread
@@ -30,15 +31,33 @@ namespace WindowsFormsTestApplication
         /// <param name="interval">update interval</param>
         public ProcessManager(bool startUpdating = true, int interval = 1000)
         {
-            Processes = new List<Process>(0);
+            Processes = new List<ProcessInfo>(0);
             UpdatingTimer = new Timer();
             UpdatingTimer.Elapsed += OnTimedEvent;
             UpdatingTimer.Interval = interval;
 
             if (startUpdating)
             {
-                UpdatingTimer.Enabled = true;
+                ChangeState();
             }
+        }
+
+        /// <summary>
+        /// Start/Stop updating processes
+        /// </summary>
+        public void ChangeState()
+        {
+            UpdatingTimer.Enabled = !UpdatingTimer.Enabled;
+            LogManager.GetCurrentClassLogger()
+                .Info(UpdatingTimer.Enabled ? "Process Updating has been started" : "Process Updating has been stopped");
+        }
+
+        /// <summary>
+        /// Return current state of internal timer
+        /// </summary>
+        public bool CurrentState
+        {
+            get { return UpdatingTimer.Enabled; }
         }
 
         /// <summary>
@@ -46,40 +65,56 @@ namespace WindowsFormsTestApplication
         /// </summary>
         protected void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            var newProcesses = GetCurrentProcessesData();
-            LogClosedProcesses(newProcesses);
-            LogNewProcesses(newProcesses);
-            lock (this)
+            try
             {
-                Processes = newProcesses.ToList();
+                var newProcesses = Process.GetProcesses();
+                lock (this)
+                {
+                    RemoveAndLogOldProcesses(newProcesses);
+                    AddAndLogNewProcesses(newProcesses);
+                }
+            }
+            catch (Exception exception)
+            {
+                LogManager.GetCurrentClassLogger().Error("OnTimedEvent exception: {0}, {1}", exception.Message, exception.StackTrace);       
             }
         }
 
         /// <summary>
-        /// Log information about new processes
+        /// Add new found processes and log it
         /// </summary>
-        /// <param name="data">Current state of processes</param>
-        protected void LogNewProcesses(IEnumerable<Process> data)
+        /// <param name="newProcesses">Collection of current proccesses</param>
+        private void AddAndLogNewProcesses(IEnumerable<Process> newProcesses)
         {
-            throw new NotImplementedException();
+            foreach (var process in newProcesses)
+            {
+                var found = Processes.SingleOrDefault(item => item.Id == process.Id);
+                if (found == null)
+                {
+                    var toAdd = new ProcessInfo(process.Id, process.ProcessName);
+                    Processes.Add(toAdd);
+                    LogManager.GetCurrentClassLogger().Info("Found new process: {0}", toAdd);
+                }
+            }
         }
 
         /// <summary>
-        /// Log information about closed processes
+        /// Remove processes which have been finished and log it
         /// </summary>
-        /// <param name="data">Current state of processes</param>
-        protected void LogClosedProcesses(IEnumerable<Process> data)
+        /// <param name="newProcesses">Collection of current processes</param>
+        private void RemoveAndLogOldProcesses(IEnumerable<Process> newProcesses)
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets current processes in system
-        /// </summary>
-        /// <returns>Collection of processes</returns>
-        protected static IEnumerable<Process> GetCurrentProcessesData()
-        {
-            return Process.GetProcesses();
+            foreach (var process in Processes)
+            {
+                var found = newProcesses.SingleOrDefault(item => item.Id == process.Id);
+                if (found == null)
+                {   
+                    process.Remove(); // Mark process
+                    LogManager.GetCurrentClassLogger().Info("Process has been removed: {0}", process);
+                }
+            }
+            // Remove marked data
+            Processes.RemoveAll(item => item.Removed);
         }
     }
 }
