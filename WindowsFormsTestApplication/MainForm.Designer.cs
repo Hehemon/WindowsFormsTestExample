@@ -62,6 +62,7 @@
             this.lvcName,
             this.lvcID});
             this.lvProcesses.Location = new System.Drawing.Point(12, 13);
+            this.lvProcesses.MultiSelect = false;
             this.lvProcesses.Name = "lvProcesses";
             this.lvProcesses.Size = new System.Drawing.Size(339, 388);
             this.lvProcesses.TabIndex = 2;
