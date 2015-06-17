@@ -60,6 +60,31 @@ namespace WindowsFormsTestApplication
         }
 
         /// <summary>
+        /// Shows additional information about process
+        /// </summary>
+        private void ShowProcessDetails()
+        {
+            try
+            {
+                if (lvProcesses.Items.Count == 0)
+                {
+                    MessageBox.Show("There are no selected item in list view", "Details", MessageBoxButtons.OK);
+                    return;
+                }
+                var id = Convert.ToInt32(lvProcesses.SelectedItems[0].SubItems[0]);
+                var message = ProcessInfo.GetProcessDetails(id);
+                MessageBox.Show(message, "Details", MessageBoxButtons.OK);
+            }
+            catch (Exception e)
+            {
+                var errorMessage = string.Format("Showing details exception: {0}, {1}", e.Message, e.StackTrace);
+                LogManager.GetCurrentClassLogger().Error(errorMessage);
+                MessageBox.Show(errorMessage, "Details", MessageBoxButtons.OK);
+            }
+
+        }
+
+        /// <summary>
         /// Enable/Disable details button
         /// </summary>
         /// <param name="sender"></param>
@@ -102,9 +127,24 @@ namespace WindowsFormsTestApplication
             ProcessManager.I.OnProcessUpdate -= UpdateViewList;
         }
 
+        /// <summary>
+        /// Double click on list view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvProcesses_DoubleClick(object sender, EventArgs e)
         {
+            ShowProcessDetails();
+        }
 
+        /// <summary>
+        /// Button details click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            ShowProcessDetails();
         }
     }
 }

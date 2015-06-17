@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 
 namespace WindowsFormsTestApplication
 {
@@ -56,5 +58,25 @@ namespace WindowsFormsTestApplication
         {
             return MemberwiseClone();
         }
+
+        /// <summary>
+        /// Get details of process
+        /// </summary>
+        /// <param name="id">Process id</param>
+        /// <returns>String with complete information</returns>
+        public static string GetProcessDetails(int id)
+        {
+            try
+            {
+                var info = Process.GetProcessById(id);
+                return string.Format("{0}, started at {1}, total processor time: {2}", info.ProcessName, info.StartTime, info.TotalProcessorTime);
+            }
+            catch (Exception e)
+            {
+                LogManager.GetCurrentClassLogger().Error("Couldn't find details of process id {0} by reason {1}", id, e.Message);
+                return string.Format("There are no such process in system: {0}", id);
+            }
+        }
+
     }
 }

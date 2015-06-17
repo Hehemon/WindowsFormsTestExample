@@ -55,6 +55,7 @@
             this.btnDetails.TabIndex = 1;
             this.btnDetails.Text = "Details";
             this.btnDetails.UseVisualStyleBackColor = true;
+            this.btnDetails.Click += new System.EventHandler(this.btnDetails_Click);
             // 
             // lvProcesses
             // 
