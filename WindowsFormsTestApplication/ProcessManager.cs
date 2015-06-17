@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace WindowsFormsTestApplication
 {
@@ -12,17 +13,38 @@ namespace WindowsFormsTestApplication
     /// </summary>
     public class ProcessManager
     {
-        protected IEnumerable<Process> Processes { get; set; } 
+        /// <summary>
+        /// Previous process data
+        /// </summary>
+        protected IEnumerable<Process> Processes { get; set; }
 
-        public ProcessManager()
+        /// <summary>
+        /// Timer for updating in different thread
+        /// </summary>
+        protected Timer UpdatingTimer { get; set; }
+
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        /// <param name="startUpdating">if start updating process at the begging</param>
+        /// <param name="interval">update interval</param>
+        public ProcessManager(bool startUpdating = true, int interval = 1000)
         {
             Processes = new List<Process>(0);
+            UpdatingTimer = new Timer();
+            UpdatingTimer.Elapsed += OnTimedEvent;
+            UpdatingTimer.Interval = interval;
+
+            if (startUpdating)
+            {
+                UpdatingTimer.Enabled = true;
+            }
         }
 
         /// <summary>
-        /// Asynchronuos
+        /// Asynchronouos way
         /// </summary>
-        public void Tick()
+        protected void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             var newProcesses = GetCurrentProcessesData();
             LogClosedProcesses(newProcesses);
