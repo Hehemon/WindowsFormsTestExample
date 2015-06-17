@@ -74,7 +74,7 @@ namespace WindowsFormsTestApplication
                         Resources.ProcessesMainForm_ShowProcessDetails_Details, MessageBoxButtons.OK);
                     return;
                 }
-                var id = Convert.ToInt32(lvProcesses.SelectedItems[0].SubItems[0]);
+                var id = Convert.ToInt32(lvProcesses.SelectedItems[0].SubItems[1].Text);
                 var message = ProcessInfo.GetProcessDetails(id);
                 MessageBox.Show(message, Resources.ProcessesMainForm_ShowProcessDetails_Details, MessageBoxButtons.OK);
             }
