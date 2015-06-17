@@ -14,7 +14,6 @@ namespace WindowsFormsTestApplication
 {
     public partial class ProcessesMainForm : Form
     {
-
         public ProcessesMainForm()
         {
             InitializeComponent();
@@ -47,21 +46,40 @@ namespace WindowsFormsTestApplication
                 lvProcesses.Items.Add(new ListViewItem(new[] {item.FriendlyName, item.Id.ToString()}));
             }
             lvProcesses.EndUpdate();
+            btnDetails.Enabled = lvProcesses.SelectedItems.Count > 0;
         }
 
+        /// <summary>
+        /// Enable/Disable details button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvProcesses_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            btnDetails.Enabled = lvProcesses.SelectedItems.Count > 0;
         }
 
+        /// <summary>
+        /// Start/stop updating list view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStartStop_Click(object sender, EventArgs e)
         {
-
+            ProcessManager.I.ChangeState();
+            btnStartStop.Text = ProcessManager.I.CurrentState ? "Stop" : "Start";
         }
 
+        /// <summary>
+        /// Set startup form state
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             ProcessManager.I.OnProcessUpdate += UpdateViewList;
+            btnStartStop.Text = ProcessManager.I.CurrentState ? "Stop" : "Start";
+            btnDetails.Enabled = lvProcesses.SelectedItems.Count > 0;
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
