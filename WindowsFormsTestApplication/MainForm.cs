@@ -116,9 +116,9 @@ namespace WindowsFormsTestApplication
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            ProcessManager.I.OnProcessUpdate += UpdateViewList;
             btnStartStop.Text = ProcessManager.I.CurrentState ? "Stop" : "Start";
             btnDetails.Enabled = lvProcesses.SelectedItems.Count > 0;
+            ProcessManager.I.OnProcessUpdate += UpdateViewList;    
         }
 
         /// <summary>
