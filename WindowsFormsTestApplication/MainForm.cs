@@ -12,10 +12,10 @@ using NLog;
 
 namespace WindowsFormsTestApplication
 {
-    public partial class MainForm : Form
+    public partial class ProcessesMainForm : Form
     {
 
-        public MainForm()
+        public ProcessesMainForm()
         {
             InitializeComponent();
             _updater = UpdateViewListInUiThread;

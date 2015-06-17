@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsTestApplication
 {
-    partial class MainForm
+    partial class ProcessesMainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -39,7 +39,7 @@
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(13, 176);
+            this.btnStartStop.Location = new System.Drawing.Point(127, 407);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(75, 23);
             this.btnStartStop.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             // btnDetails
             // 
-            this.btnDetails.Location = new System.Drawing.Point(199, 176);
+            this.btnDetails.Location = new System.Drawing.Point(276, 407);
             this.btnDetails.Name = "btnDetails";
             this.btnDetails.Size = new System.Drawing.Size(75, 23);
             this.btnDetails.TabIndex = 1;
@@ -63,7 +63,7 @@
             this.Id});
             this.lvProcesses.Location = new System.Drawing.Point(12, 13);
             this.lvProcesses.Name = "lvProcesses";
-            this.lvProcesses.Size = new System.Drawing.Size(261, 157);
+            this.lvProcesses.Size = new System.Drawing.Size(339, 388);
             this.lvProcesses.TabIndex = 2;
             this.lvProcesses.UseCompatibleStateImageBehavior = false;
             this.lvProcesses.View = System.Windows.Forms.View.Details;
@@ -72,22 +72,26 @@
             // 
             // Name
             // 
-            this.Name.Width = 102;
+            this.Name.Text = "Name";
+            this.Name.Width = 172;
             // 
             // Id
             // 
+            this.Id.Text = "Process ID";
             this.Id.Width = 158;
             // 
-            // MainForm
+            // ProcessesMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 220);
+            this.ClientSize = new System.Drawing.Size(464, 437);
             this.Controls.Add(this.lvProcesses);
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnStartStop);
-            
-            this.Text = "MainForm";
+            this.MaximumSize = new System.Drawing.Size(1024, 768);
+            this.MinimumSize = new System.Drawing.Size(480, 150);
+            this.Name = "ProcessesMainForm";
+            this.Text = "Processes";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
