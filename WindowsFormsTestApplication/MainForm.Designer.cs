@@ -68,6 +68,7 @@
             this.lvProcesses.UseCompatibleStateImageBehavior = false;
             this.lvProcesses.View = System.Windows.Forms.View.List;
             this.lvProcesses.SelectedIndexChanged += new System.EventHandler(this.lvProcesses_SelectedIndexChanged);
+            this.lvProcesses.DoubleClick += new System.EventHandler(this.lvProcesses_DoubleClick);
             // 
             // MainForm
             // 
@@ -77,6 +78,7 @@
             this.Controls.Add(this.lvProcesses);
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnStartStop);
+            this.Name = "MainForm";
             this.Text = "MainForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);

@@ -18,11 +18,11 @@ namespace WindowsFormsTestApplication
         public MainForm()
         {
             InitializeComponent();
-            Updater = UpdateViewListInUIThread;
+            _updater = UpdateViewListInUiThread;
         }
 
         private delegate void UpdateListViewDelegate(IEnumerable<ProcessInfo> current);
-        private UpdateListViewDelegate Updater;
+        private readonly UpdateListViewDelegate _updater;
 
         /// <summary>
         /// Get event from ProcessManager
@@ -31,14 +31,14 @@ namespace WindowsFormsTestApplication
         /// <param name="e"></param>
         public void UpdateViewList(object sender, ProcessUpdateEventArgs e)
         {
-            this.Invoke(Updater, e.ProcessData); 
+            this.Invoke(_updater, e.ProcessData); 
         }
 
         /// <summary>
         /// Update ListView data
         /// </summary>
         /// <param name="list">Current processes</param>
-        private void UpdateViewListInUIThread(IEnumerable<ProcessInfo> list)
+        private void UpdateViewListInUiThread(IEnumerable<ProcessInfo> list)
         {
             lvProcesses.BeginUpdate();
             lvProcesses.Items.Clear();
@@ -67,6 +67,11 @@ namespace WindowsFormsTestApplication
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ProcessManager.I.OnProcessUpdate -= UpdateViewList;
+        }
+
+        private void lvProcesses_DoubleClick(object sender, EventArgs e)
+        {
+
         }
     }
 }
