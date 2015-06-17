@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsTestApplication.Properties;
 using NLog;
 
 namespace WindowsFormsTestApplication
@@ -68,18 +69,21 @@ namespace WindowsFormsTestApplication
             {
                 if (lvProcesses.Items.Count == 0)
                 {
-                    MessageBox.Show("There are no selected item in list view", "Details", MessageBoxButtons.OK);
+                    MessageBox.Show(
+                        Resources.ProcessesMainForm_ShowProcessDetails_There_are_no_selected_item_in_list_view,
+                        Resources.ProcessesMainForm_ShowProcessDetails_Details, MessageBoxButtons.OK);
                     return;
                 }
                 var id = Convert.ToInt32(lvProcesses.SelectedItems[0].SubItems[0]);
                 var message = ProcessInfo.GetProcessDetails(id);
-                MessageBox.Show(message, "Details", MessageBoxButtons.OK);
+                MessageBox.Show(message, Resources.ProcessesMainForm_ShowProcessDetails_Details, MessageBoxButtons.OK);
             }
             catch (Exception e)
             {
                 var errorMessage = string.Format("Showing details exception: {0}, {1}", e.Message, e.StackTrace);
                 LogManager.GetCurrentClassLogger().Error(errorMessage);
-                MessageBox.Show(errorMessage, "Details", MessageBoxButtons.OK);
+                MessageBox.Show(errorMessage, Resources.ProcessesMainForm_ShowProcessDetails_Details,
+                    MessageBoxButtons.OK);
             }
 
         }
